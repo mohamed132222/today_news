@@ -124,6 +124,9 @@ ThemeData lighTheme = ThemeData(
   //     decorationThickness: 1.5,
   //   ),
   // ),
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+    color: LightColor.darkColor,
+  ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: const Color(0xFFFFFFFF),

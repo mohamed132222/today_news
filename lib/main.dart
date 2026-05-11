@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:today_news/core/data_source/local/preferences_manager.dart';
 import 'package:today_news/core/theme/light_theme.dart';
+import 'package:today_news/feature/auth/login_screen.dart';
+import 'package:today_news/feature/auth/register_screen.dart';
 import 'package:today_news/feature/splash/splash_screen.dart';
 
 void main() async {
@@ -18,7 +20,7 @@ class TodayNews extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: lighTheme,
-      home: SplashScreen(),
+      home: LoginScreen(),
     );
   }
 }

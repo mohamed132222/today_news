@@ -1,17 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:today_news/core/data_source/local/preferences_manager.dart';
 import 'package:today_news/core/widgets/custom_text_form_field.dart';
-import 'package:today_news/feature/auth/login_screen.dart';
+import 'package:today_news/feature/main/main_screen.dart';
 
 import '../../core/theme/light_color.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController email = TextEditingController();
 
   final TextEditingController password = TextEditingController();
+
   final TextEditingController confirmPassword = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
+
+  bool isLoading = false;
+
+  String? errorMessage;
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    email.dispose();
+    password.dispose();
+    confirmPassword.dispose();
+  }
+
+  void register() async {
+    if (formKey.currentState!.validate()) {
+      ///register
+      setState(() {
+        errorMessage = null;
+
+        isLoading = true;
+      });
+      await Future.delayed(Duration(seconds: 1));
+      final savedEmail = PreferencesManager().getString("email");
+      if (savedEmail != null && savedEmail == email.text.trim()) {
+        setState(() {
+          errorMessage = "email is already exist";
+
+          isLoading = false;
+        });
+      } else {
+        await PreferencesManager().setBool("is_login", true);
+        await PreferencesManager().setString("email", email.text.trim());
+        await PreferencesManager().setString("password", password.text.trim());
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MainScreen()),
+        );
+      }
+    }
+  }
+
+  void signIn(BuildContext context) {
+    /// navigate to signin
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,19 +164,33 @@ class RegisterScreen extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 20),
+                  if (errorMessage != null && errorMessage!.isNotEmpty)
+                    Padding(
+                      padding: EdgeInsetsGeometry.all(8),
+                      child: Text(
+                        errorMessage ?? "",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.red,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
                   ElevatedButton(
                     onPressed: register,
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(MediaQuery.of(context).size.width, 48),
                     ),
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: LightColor.whiteColor,
-                      ),
-                    ),
+                    child: isLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : Text(
+                            "Sign Up",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: LightColor.whiteColor,
+                            ),
+                          ),
                   ),
                   SizedBox(height: 34),
                   Row(
@@ -157,16 +225,5 @@ class RegisterScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void register() {
-    if (formKey.currentState!.validate()) {
-      ///register
-    }
-  }
-
-  void signIn(BuildContext context) {
-    /// navigate to signin
-    Navigator.pop(context);
   }
 }

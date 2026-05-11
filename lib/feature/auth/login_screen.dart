@@ -1,16 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:today_news/core/data_source/local/preferences_manager.dart';
 import 'package:today_news/core/theme/light_color.dart';
 import 'package:today_news/core/widgets/custom_text_form_field.dart';
 import 'package:today_news/feature/auth/register_screen.dart';
+import 'package:today_news/feature/main/main_screen.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController email = TextEditingController();
 
   final TextEditingController password = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
+  bool isLoading = false;
+  String? errorMessage;
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    email.dispose();
+    password.dispose();
+  }
+
+  void login() async {
+    if (formKey.currentState!.validate()) {
+      ///login
+      setState(() {
+        isLoading = true;
+        errorMessage = null;
+      });
+      await Future.delayed(Duration(seconds: 2));
+
+      final savedPassword = PreferencesManager().getString("password");
+      final savedEmail = PreferencesManager().getString("email");
+      if (savedEmail == null || savedPassword == null) {
+        setState(() {
+          isLoading = false;
+          errorMessage = "email dosent found";
+        });
+        return;
+      }
+
+      if (savedEmail != email.text.trim() ||
+          savedPassword != password.text.trim()) {
+        await PreferencesManager().setBool("is_login", true);
+        setState(() {
+          isLoading = false;
+          errorMessage = "email or password wrong";
+        });
+        return;
+      }
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
+      setState(() {
+        isLoading = false;
+        errorMessage = null;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                         return "please enter your email";
                       }
                       final RegExp emailRegex = RegExp(
-                        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
                       );
 
                       if (!emailRegex.hasMatch(value)) {
@@ -92,19 +148,33 @@ class LoginScreen extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 20),
+                  if (errorMessage != null && errorMessage!.isNotEmpty)
+                    Padding(
+                      padding: EdgeInsetsGeometry.all(4),
+                      child: Text(
+                        errorMessage ?? "",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
                   ElevatedButton(
                     onPressed: login,
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(MediaQuery.of(context).size.width, 48),
                     ),
-                    child: Text(
-                      "Sign In",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: LightColor.whiteColor,
-                      ),
-                    ),
+                    child: isLoading
+                        ? CircularProgressIndicator()
+                        : Text(
+                            "Sign In",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: LightColor.whiteColor,
+                            ),
+                          ),
                   ),
                   SizedBox(height: 34),
                   Row(
@@ -120,7 +190,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 8),
                       TextButton(
-                        onPressed: () => SignUp(context),
+                        onPressed: () => signUp(context),
                         child: Text(
                           "Sign Up",
                           style: TextStyle(
@@ -141,13 +211,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void login() {
-    if (formKey.currentState!.validate()) {
-      ///login
-    }
-  }
-
-  void SignUp(BuildContext context) {
+  void signUp(BuildContext context) {
     ///signup
     Navigator.push(
       context,
