@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:today_news/core/data_source/remote/api_config.dart';
 import 'package:today_news/core/data_source/remote/api_service.dart';
+import 'package:today_news/core/enums/request_data_status.dart';
 import 'package:today_news/feature/home/models/NewsArticleModel.dart';
 
 class HomeController with ChangeNotifier {
+  RequestDataStatus everythingStatus = RequestDataStatus.loading;
   bool headlineLoading = true;
-  bool everythingLoading = true;
   String? errorMessage;
   ApiService apiService = ApiService();
   List<NewsArticleModel> headlineList = [];
@@ -50,12 +51,12 @@ class HomeController with ChangeNotifier {
       everythingList = (json["articles"] as List)
           .map((e) => NewsArticleModel.fromJson(e))
           .toList();
-      everythingLoading = false;
+      everythingStatus = RequestDataStatus.loaded;
 
       errorMessage = null;
     } catch (e) {
-      everythingLoading = false;
       errorMessage = e.toString();
+      everythingStatus = RequestDataStatus.error;
     }
     notifyListeners();
   }

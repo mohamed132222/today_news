@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:today_news/core/enums/request_data_status.dart';
 import 'package:today_news/core/theme/light_color.dart';
 import 'package:today_news/feature/home/controller/home_controller.dart';
 
@@ -59,47 +60,47 @@ class TrendingNews extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 12),
+
                 SizedBox(
                   height: 140,
                   child: Consumer<HomeController>(
                     builder: (context, HomeController value, child) {
-                      return (value.errorMessage?.isNotEmpty ?? false)
-                          ? Center(
-                              child: Text(
-                                value.errorMessage!,
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            )
-                          : value.everythingLoading
-                          ? Center(child: CircularProgressIndicator())
-                          : ListView.separated(
-                              separatorBuilder: (context, index) =>
-                                  SizedBox(width: 12),
-                              itemCount: value.everythingList.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                return Stack(
-                                  children: [
-                                    if (value
-                                            .everythingList[index]
-                                            .urlToImage !=
-                                        null)
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadiusGeometry.circular(12),
-                                        child: Image.network(
-                                          value
-                                              .everythingList[index]
-                                              .urlToImage!,
-                                          height: 140,
-                                          width: 240,
-                                          fit: BoxFit.cover,
-                                        ),
+                      switch (value.everythingStatus) {
+                        case RequestDataStatus.loading:
+                          return Center(child: CircularProgressIndicator());
+                        case RequestDataStatus.loaded:
+                          return ListView.separated(
+                            separatorBuilder: (context, index) =>
+                                SizedBox(width: 12),
+                            itemCount: value.everythingList.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return Stack(
+                                children: [
+                                  if (value.everythingList[index].urlToImage !=
+                                      null)
+                                    ClipRRect(
+                                      borderRadius:
+                                          BorderRadiusGeometry.circular(12),
+                                      child: Image.network(
+                                        value.everythingList[index].urlToImage!,
+                                        height: 140,
+                                        width: 240,
+                                        fit: BoxFit.cover,
                                       ),
-                                  ],
-                                );
-                              },
-                            );
+                                    ),
+                                ],
+                              );
+                            },
+                          );
+                        case RequestDataStatus.error:
+                          return Center(
+                            child: Text(
+                              value.errorMessage!,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          );
+                      }
                     },
                   ),
                 ),
