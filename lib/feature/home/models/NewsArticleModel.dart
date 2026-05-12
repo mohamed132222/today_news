@@ -23,7 +23,7 @@ class NewsArticleModel {
       description: json["description"] as String?,
       title: json["title"] as String?,
       content: json["content"] as String?,
-      publishedAt: json["publishedAt"] as String?,
+      publishedAt: DateTime.tryParse(json["publishedAt"]) ?? DateTime.now(),
       url: json["url"] as String?,
       urlToImage: json["urlToImage"] as String?,
     );
@@ -33,7 +33,8 @@ class NewsArticleModel {
   String? description;
   String? url;
   String? urlToImage;
-  String? publishedAt;
+
+  DateTime publishedAt;
   String? content;
 
   Map<String, dynamic> toJson() {

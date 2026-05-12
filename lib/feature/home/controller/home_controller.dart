@@ -11,19 +11,20 @@ class HomeController with ChangeNotifier {
   ApiService apiService = ApiService();
   List<NewsArticleModel> headlineList = [];
   List<NewsArticleModel> everythingList = [];
+  String? selectedCategory;
 
   HomeController() {
     headLineEndPoint();
     everythingEndPoint();
   }
 
-  void headLineEndPoint() async {
+  void headLineEndPoint({String? category}) async {
     try {
       errorMessage = null;
 
       Map<String, dynamic> json = await apiService.get(
         ApiConfig.headLine,
-        params: {"country": "us"},
+        params: {"country": "us", "category": category},
       );
 
       headlineList = (json["articles"] as List)
@@ -58,6 +59,12 @@ class HomeController with ChangeNotifier {
       errorMessage = e.toString();
       everythingStatus = RequestDataStatus.error;
     }
+    notifyListeners();
+  }
+
+  void changeCategory(String category) {
+    selectedCategory = category;
+    headLineEndPoint(category: category);
     notifyListeners();
   }
 }
