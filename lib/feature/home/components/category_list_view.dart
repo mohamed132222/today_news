@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:today_news/core/theme/light_color.dart';
+import 'package:today_news/feature/home/category_screen.dart';
 import 'package:today_news/feature/home/components/shared_view_all.dart';
 import 'package:today_news/feature/home/controller/home_controller.dart';
 
@@ -20,7 +21,17 @@ class _CategoryListViewState extends State<CategoryListView> {
           return Column(
             children: [
               SharedViewAll(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ChangeNotifierProvider.value(
+                        value: controller,
+                        child: CategoryScreen(),
+                      ),
+                    ),
+                  );
+                },
                 title: "Categories",
                 titleColor: LightColor.blackColor,
               ),

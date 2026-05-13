@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:today_news/core/data_source/local/preferences_manager.dart';
 import 'package:today_news/core/theme/light_theme.dart';
-
 import 'package:today_news/feature/splash/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferencesManager().init();
-  // PreferencesManager().clear();
-  runApp(const TodayNews());
+  runApp(TodayNews());
 }
 
 class TodayNews extends StatelessWidget {

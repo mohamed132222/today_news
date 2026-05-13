@@ -3,8 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:today_news/core/enums/request_data_status.dart';
 import 'package:today_news/core/extentions/date_time_extention.dart';
 import 'package:today_news/core/theme/light_color.dart';
+import 'package:today_news/core/widgets/cached_network_image_widget.dart';
+import 'package:today_news/core/widgets/custom_circler_avatar.dart';
 import 'package:today_news/feature/home/components/shared_view_all.dart';
+import 'package:today_news/feature/home/components/trending_news_shimmer.dart';
 import 'package:today_news/feature/home/controller/home_controller.dart';
+import 'package:today_news/feature/home/trending_news_screen.dart';
 
 class TrendingNews extends StatelessWidget {
   const TrendingNews({super.key});
@@ -35,7 +39,20 @@ class TrendingNews extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8),
-                  SharedViewAll(title: "Trending News", onTap: () {}),
+                  SharedViewAll(
+                    title: "Trending News",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ChangeNotifierProvider.value(
+                            value: context.read<HomeController>(),
+                            child: TrendingNewsScreen(),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                   SizedBox(height: 12),
 
                   SizedBox(
@@ -44,7 +61,7 @@ class TrendingNews extends StatelessWidget {
                       builder: (context, HomeController value, child) {
                         switch (value.everythingStatus) {
                           case RequestDataStatus.loading:
-                            return Center(child: CircularProgressIndicator());
+                            return TrendingNewsShimmer();
                           case RequestDataStatus.loaded:
                             return ListView.separated(
                               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -62,11 +79,10 @@ class TrendingNews extends StatelessWidget {
                                     child: Stack(
                                       children: [
                                         if (model.urlToImage != null)
-                                          Image.network(
-                                            model.urlToImage!,
+                                          CachedNetworkImageWidget(
+                                            imagePath: model.urlToImage!,
                                             height: 140,
                                             width: 240,
-                                            fit: BoxFit.cover,
                                           ),
                                         Positioned.fill(
                                           child: Container(
@@ -109,13 +125,9 @@ class TrendingNews extends StatelessWidget {
                                               SizedBox(height: 6),
                                               Row(
                                                 children: [
-                                                  CircleAvatar(
-                                                    radius: 14,
-                                                    backgroundImage:
-                                                        NetworkImage(
-                                                          model.urlToImage ??
-                                                              "",
-                                                        ),
+                                                  CustomCirclerAvatar(
+                                                    imagePath:
+                                                        model.urlToImage ?? "",
                                                   ),
                                                   SizedBox(width: 6),
 
@@ -162,9 +174,10 @@ class TrendingNews extends StatelessWidget {
                               },
                             );
                           case RequestDataStatus.error:
-                            return Center(
+                            return Padding(
+                              padding: const EdgeInsets.all(16.0),
                               child: Text(
-                                value.errorMessage!,
+                                value.errorMessage ?? "",
                                 style: TextStyle(color: Colors.red),
                               ),
                             );

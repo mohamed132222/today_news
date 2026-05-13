@@ -1,0 +1,37 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
+
+class CachedNetworkImageWidget extends StatelessWidget {
+  const CachedNetworkImageWidget({
+    super.key,
+    required this.imagePath,
+    this.width,
+    this.height,
+  });
+
+  final String imagePath;
+  final double? width;
+  final double? height;
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: imagePath,
+      height: height ?? 74,
+      width: width ?? 134,
+      progressIndicatorBuilder: (context, url, downloadProgress) =>
+          Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+              height: height ?? 74,
+              width: width ?? 134,
+              color: Colors.white,
+            ),
+          ),
+      errorWidget: (context, url, error) => Icon(Icons.error),
+      fit: BoxFit.cover,
+    );
+  }
+}

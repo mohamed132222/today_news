@@ -9,12 +9,17 @@ ThemeData lighTheme = ThemeData(
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(foregroundColor: Color(0xFFC53030)),
   ),
-  // appBarTheme: AppBarTheme(
-  //   backgroundColor: const Color(0xFFF6F7F9),
-  //   elevation: 0,
-  //   iconTheme: const IconThemeData(color: Color(0xFF161F1B)),
-  //   centerTitle: true,
-  // ),
+  appBarTheme: AppBarTheme(
+    backgroundColor: const Color(0xFFFFFFFF),
+    elevation: 0,
+    iconTheme: const IconThemeData(color: LightColor.blackColor),
+    centerTitle: true,
+    titleTextStyle: TextStyle(
+      fontSize: 16,
+      color: LightColor.blackColor,
+      fontWeight: FontWeight.w700,
+    ),
+  ),
   // switchTheme: SwitchThemeData(
   //   trackColor: WidgetStateColor.resolveWith((states) {
   //     if (states.contains(WidgetState.selected)) {
@@ -184,6 +189,7 @@ ThemeData lighTheme = ThemeData(
     selectedItemColor: LightColor.primaryColor,
     backgroundColor: LightColor.backgroundColor,
     type: BottomNavigationBarType.fixed,
+
     selectedLabelStyle: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w700,
@@ -195,7 +201,7 @@ ThemeData lighTheme = ThemeData(
       fontFamily: "Times New Roman",
     ),
   ),
-  // splashFactory: NoSplash.splashFactory,
+  splashFactory: NoSplash.splashFactory,
   // textButtonTheme: TextButtonThemeData(
   //   style: ButtonStyle(
   //     foregroundColor: WidgetStatePropertyAll(Colors.black),

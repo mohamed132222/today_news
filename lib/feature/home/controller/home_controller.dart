@@ -6,7 +6,7 @@ import 'package:today_news/feature/home/models/NewsArticleModel.dart';
 
 class HomeController with ChangeNotifier {
   RequestDataStatus everythingStatus = RequestDataStatus.loading;
-  bool headlineLoading = true;
+  RequestDataStatus topHeadlineStatus = RequestDataStatus.loading;
   String? errorMessage;
   ApiService apiService = ApiService();
   List<NewsArticleModel> headlineList = [];
@@ -20,6 +20,8 @@ class HomeController with ChangeNotifier {
 
   void headLineEndPoint({String? category}) async {
     try {
+      topHeadlineStatus = RequestDataStatus.loading;
+      notifyListeners();
       errorMessage = null;
 
       Map<String, dynamic> json = await apiService.get(
@@ -30,10 +32,10 @@ class HomeController with ChangeNotifier {
       headlineList = (json["articles"] as List)
           .map((e) => NewsArticleModel.fromJson(e))
           .toList();
-      headlineLoading = false;
+      topHeadlineStatus = RequestDataStatus.loaded;
       errorMessage = null;
     } catch (e) {
-      headlineLoading = false;
+      topHeadlineStatus = RequestDataStatus.error;
 
       errorMessage = e.toString();
     }

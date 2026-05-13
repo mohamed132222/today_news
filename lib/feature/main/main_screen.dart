@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:today_news/core/theme/light_color.dart';
 import 'package:today_news/feature/book_mark/book_mark_screen.dart';
 import 'package:today_news/feature/home/home_screen.dart';
 import 'package:today_news/feature/profile/profile_screen.dart';
@@ -30,13 +32,42 @@ class _MainScreenState extends State<MainScreen> {
           });
         },
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_border_outlined),
+            icon: SvgPicture.asset(
+              "assets/images/home_icon.svg",
+              colorFilter: currentIndex == 0
+                  ? ColorFilter.mode(LightColor.primaryColor, BlendMode.srcIn)
+                  : ColorFilter.mode(LightColor.darkColor, BlendMode.srcIn),
+            ),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              "assets/images/search_icon.svg",
+              colorFilter: currentIndex == 1
+                  ? ColorFilter.mode(LightColor.primaryColor, BlendMode.srcIn)
+                  : ColorFilter.mode(LightColor.darkColor, BlendMode.srcIn),
+            ),
+            label: "Search",
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              "assets/images/bookmark_icon.svg",
+              colorFilter: currentIndex == 2
+                  ? ColorFilter.mode(LightColor.primaryColor, BlendMode.srcIn)
+                  : ColorFilter.mode(LightColor.darkColor, BlendMode.srcIn),
+            ),
             label: "BookMark",
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              "assets/images/profile_icon.svg",
+              colorFilter: currentIndex == 3
+                  ? ColorFilter.mode(LightColor.primaryColor, BlendMode.srcIn)
+                  : ColorFilter.mode(LightColor.darkColor, BlendMode.srcIn),
+            ),
+            label: "Profile",
+          ),
         ],
       ),
       body: _screens[currentIndex],
