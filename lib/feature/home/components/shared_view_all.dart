@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:today_news/core/constant/app_size.dart';
 import 'package:today_news/core/theme/light_color.dart';
 
 class SharedViewAll extends StatelessWidget {
@@ -14,14 +15,14 @@ class SharedViewAll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: EdgeInsets.symmetric(horizontal: AppSize.pw16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: AppSize.sp16,
               fontWeight: FontWeight.w700,
               color: titleColor ?? LightColor.whiteColor,
               fontFamily: "Times New Roman",
@@ -32,7 +33,7 @@ class SharedViewAll extends StatelessWidget {
             child: Text(
               "View all",
               style: TextStyle(
-                fontSize: 14,
+                fontSize: AppSize.sp14,
                 fontWeight: FontWeight.w400,
                 color: titleColor ?? LightColor.whiteColor,
                 decoration: TextDecoration.underline,

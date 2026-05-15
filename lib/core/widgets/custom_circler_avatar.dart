@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:today_news/core/constant/app_size.dart';
 import 'package:today_news/core/theme/light_color.dart';
 
 class CustomCirclerAvatar extends StatelessWidget {
@@ -21,24 +22,24 @@ class CustomCirclerAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       backgroundColor: Colors.transparent,
-      radius: raduis ?? 14,
+      radius: raduis ?? AppSize.r14,
       child: CachedNetworkImage(
         imageUrl: imagePath,
 
         imageBuilder: (context, imageProvider) {
           return CircleAvatar(
-            radius: raduis ?? 14,
+            radius: raduis ?? AppSize.r14,
             backgroundImage: imageProvider,
           );
         },
         progressIndicatorBuilder: (context, url, downloadProgress) => ClipRRect(
-          borderRadius: BorderRadius.circular(raduis ?? 14),
+          borderRadius: BorderRadius.circular(raduis ?? AppSize.r14),
           child: Shimmer.fromColors(
             baseColor: Colors.grey.shade300,
             highlightColor: Colors.grey.shade100,
             child: Container(
-              height: height ?? 12,
-              width: width ?? 12,
+              height: height ?? AppSize.h12,
+              width: width ?? AppSize.w12,
               color: Colors.white,
             ),
           ),

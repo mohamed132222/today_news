@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:today_news/core/constant/app_size.dart';
 import 'package:today_news/core/enums/request_data_status.dart';
 import 'package:today_news/feature/home/components/news_item.dart';
 import 'package:today_news/feature/home/components/top_headline_shimmer.dart';
@@ -19,21 +20,25 @@ class TopHeadline extends StatelessWidget {
             return TopHeadlineShimmer();
           case RequestDataStatus.loaded:
             return SliverPadding(
-              padding: EdgeInsetsGeometry.only(bottom: 16),
+              padding: EdgeInsetsGeometry.only(bottom: AppSize.ph16),
               sliver: SliverList.separated(
                 itemBuilder: (context, index) {
                   final model = value.headlineList[index];
 
                   return NewsItem(model: model);
                 },
-                separatorBuilder: (context, index) => SizedBox(height: 12),
+                separatorBuilder: (context, index) =>
+                    SizedBox(height: AppSize.ph12),
                 itemCount: value.headlineList.take(10).length,
               ),
             );
           case RequestDataStatus.error:
             return SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.pw16,
+                  vertical: AppSize.ph16,
+                ),
                 child: Text(
                   value.errorMessage ?? "",
                   style: TextStyle(color: Colors.red),

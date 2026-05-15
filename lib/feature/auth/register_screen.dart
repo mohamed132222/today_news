@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:today_news/core/constant/app_size.dart';
 import 'package:today_news/core/data_source/local/preferences_manager.dart';
 import 'package:today_news/core/widgets/custom_text_form_field.dart';
 import 'package:today_news/feature/main/main_screen.dart';
@@ -81,7 +82,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.symmetric(
+              vertical: AppSize.ph16,
+              horizontal: AppSize.pw16,
+            ),
             child: Form(
               key: formKey,
               child: Column(
@@ -91,20 +95,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Center(
                     child: Image.asset(
                       "assets/images/news_logo.png",
-                      height: 46,
+                      height: AppSize.h46,
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  const Text(
+                  SizedBox(height: AppSize.ph24),
+                  Text(
                     "Welcome to Newts",
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: AppSize.sp20,
                       fontWeight: FontWeight.w700,
                       color: LightColor.darkColor,
                       fontFamily: "Times New Roman",
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: AppSize.ph16),
                   CustomTextFormField(
                     title: "Email",
                     controller: email,
@@ -124,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: AppSize.ph12),
                   CustomTextFormField(
                     title: "Password",
                     controller: password,
@@ -145,7 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: AppSize.ph12),
                   CustomTextFormField(
                     title: "Confirm Password",
                     controller: confirmPassword,
@@ -163,14 +167,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: AppSize.ph20),
                   if (errorMessage != null && errorMessage!.isNotEmpty)
                     Padding(
                       padding: EdgeInsetsGeometry.all(8),
                       child: Text(
                         errorMessage ?? "",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: AppSize.sp16,
                           color: Colors.red,
                           fontWeight: FontWeight.w400,
                         ),
@@ -178,39 +182,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ElevatedButton(
                     onPressed: register,
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: Size(MediaQuery.of(context).size.width, 48),
-                    ),
+
                     child: isLoading
                         ? Center(child: CircularProgressIndicator())
                         : Text(
                             "Sign Up",
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: AppSize.sp16,
                               fontWeight: FontWeight.w400,
                               color: LightColor.whiteColor,
                             ),
                           ),
                   ),
-                  SizedBox(height: 34),
+                  SizedBox(height: AppSize.ph34),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         "Have an account ?",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: AppSize.sp14,
                           fontWeight: FontWeight.w400,
                           color: LightColor.blackColor,
                         ),
                       ),
-                      SizedBox(width: 8),
+                      SizedBox(width: AppSize.pw8),
                       TextButton(
                         onPressed: () => signIn(context),
                         child: Text(
                           "Sign In",
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: AppSize.sp14,
                             fontWeight: FontWeight.w400,
                             color: LightColor.primaryColor,
                           ),

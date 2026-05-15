@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:today_news/core/constant/app_size.dart';
 import 'package:today_news/core/theme/light_color.dart';
 
 class CustomTextFormField extends StatefulWidget {
@@ -37,12 +38,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         Text(
           widget.title,
           style: TextStyle(
-            fontSize: 16,
+            fontSize: AppSize.sp16,
             fontWeight: FontWeight.w400,
             color: LightColor.blackColor,
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: AppSize.ph8),
         TextFormField(
           maxLines: widget.maxline,
           validator: (value) =>
@@ -50,7 +51,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           controller: widget.controller,
           obscureText: widget.isObscure && _isVisible,
           style: TextStyle(
-            fontSize: 16,
+            fontSize: AppSize.sp16,
             fontWeight: FontWeight.w400,
             color: LightColor.blackColor,
           ),

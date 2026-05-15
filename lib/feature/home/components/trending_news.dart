@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:today_news/core/constant/app_size.dart';
 import 'package:today_news/core/enums/request_data_status.dart';
 import 'package:today_news/core/extentions/date_time_extention.dart';
 import 'package:today_news/core/theme/light_color.dart';
@@ -17,28 +18,28 @@ class TrendingNews extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 300,
+        height: AppSize.ph300,
         child: Stack(
           children: [
             Image.asset(
               "assets/images/home_background.png",
               width: double.infinity,
-              height: 240,
+              height: AppSize.h240,
               fit: BoxFit.cover,
             ),
             Positioned.fill(
-              top: 60,
+              top: AppSize.h60,
               child: Column(
                 children: [
                   Text(
                     "NEWST",
                     style: TextStyle(
-                      fontSize: 28,
+                      fontSize: AppSize.sp28,
                       fontWeight: FontWeight.w700,
                       color: Colors.red,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: AppSize.ph8),
                   SharedViewAll(
                     title: "Trending News",
                     onTap: () {
@@ -53,10 +54,10 @@ class TrendingNews extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: AppSize.ph12),
 
                   SizedBox(
-                    height: 140,
+                    height: AppSize.ph140,
                     child: Consumer<HomeController>(
                       builder: (context, HomeController value, child) {
                         switch (value.everythingStatus) {
@@ -64,25 +65,29 @@ class TrendingNews extends StatelessWidget {
                             return TrendingNewsShimmer();
                           case RequestDataStatus.loaded:
                             return ListView.separated(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AppSize.pw16,
+                              ),
                               separatorBuilder: (context, index) =>
-                                  SizedBox(width: 12),
+                                  SizedBox(width: AppSize.pw12),
                               itemCount: value.everythingList.take(10).length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 final model = value.everythingList[index];
                                 return SizedBox(
-                                  height: 140,
-                                  width: 240,
+                                  height: AppSize.ph140,
+                                  width: AppSize.pw240,
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(
+                                      AppSize.r12,
+                                    ),
                                     child: Stack(
                                       children: [
                                         if (model.urlToImage != null)
                                           CachedNetworkImageWidget(
                                             imagePath: model.urlToImage!,
-                                            height: 140,
-                                            width: 240,
+                                            height: AppSize.h140,
+                                            width: AppSize.w240,
                                           ),
                                         Positioned.fill(
                                           child: Container(
@@ -103,9 +108,9 @@ class TrendingNews extends StatelessWidget {
                                           ),
                                         ),
                                         Positioned(
-                                          bottom: 12,
-                                          right: 12,
-                                          left: 12,
+                                          bottom: AppSize.h12,
+                                          right: AppSize.w12,
+                                          left: AppSize.w12,
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -114,7 +119,7 @@ class TrendingNews extends StatelessWidget {
                                                 model.title ?? "",
                                                 maxLines: 2,
                                                 style: TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: AppSize.sp14,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   fontWeight: FontWeight.w700,
@@ -122,21 +127,21 @@ class TrendingNews extends StatelessWidget {
                                                   fontFamily: "Times New Roman",
                                                 ),
                                               ),
-                                              SizedBox(height: 6),
+                                              SizedBox(height: AppSize.ph6),
                                               Row(
                                                 children: [
                                                   CustomCirclerAvatar(
                                                     imagePath:
                                                         model.urlToImage ?? "",
                                                   ),
-                                                  SizedBox(width: 6),
+                                                  SizedBox(width: AppSize.pw6),
 
                                                   Expanded(
                                                     child: Text(
                                                       model.author ?? "",
                                                       maxLines: 1,
                                                       style: TextStyle(
-                                                        fontSize: 12,
+                                                        fontSize: AppSize.sp12,
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         fontWeight:
@@ -152,7 +157,7 @@ class TrendingNews extends StatelessWidget {
                                                     model.publishedAt
                                                         .formaterDateTime(),
                                                     style: TextStyle(
-                                                      fontSize: 14,
+                                                      fontSize: AppSize.sp14,
 
                                                       fontWeight:
                                                           FontWeight.w400,
@@ -175,7 +180,10 @@ class TrendingNews extends StatelessWidget {
                             );
                           case RequestDataStatus.error:
                             return Padding(
-                              padding: const EdgeInsets.all(16.0),
+                              padding: EdgeInsets.symmetric(
+                                vertical: AppSize.ph16,
+                                horizontal: AppSize.pw16,
+                              ),
                               child: Text(
                                 value.errorMessage ?? "",
                                 style: TextStyle(color: Colors.red),

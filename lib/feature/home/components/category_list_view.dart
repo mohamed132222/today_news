@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:today_news/core/constant/app_size.dart';
 import 'package:today_news/core/theme/light_color.dart';
 import 'package:today_news/feature/home/category_screen.dart';
 import 'package:today_news/feature/home/components/shared_view_all.dart';
@@ -36,9 +37,12 @@ class _CategoryListViewState extends State<CategoryListView> {
                 titleColor: LightColor.blackColor,
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.symmetric(
+                  vertical: AppSize.ph16,
+                  horizontal: AppSize.pw16,
+                ),
                 child: SizedBox(
-                  height: 35,
+                  height: AppSize.ph35,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
 
@@ -56,13 +60,13 @@ class _CategoryListViewState extends State<CategoryListView> {
                                 categoryList[index][0].toUpperCase() +
                                     categoryList[index].substring(1),
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: AppSize.sp16,
                                   fontWeight: FontWeight.w400,
                                   color: LightColor.darkColor,
                                 ),
                               ),
                               if (isSelected) ...[
-                                SizedBox(height: 6),
+                                SizedBox(height: AppSize.ph6),
                                 Container(
                                   height: 3,
                                   color: LightColor.primaryColor,
@@ -73,7 +77,8 @@ class _CategoryListViewState extends State<CategoryListView> {
                         ),
                       );
                     },
-                    separatorBuilder: (context, index) => SizedBox(width: 12),
+                    separatorBuilder: (context, index) =>
+                        SizedBox(width: AppSize.pw12),
                     itemCount: categoryList.length,
                   ),
                 ),

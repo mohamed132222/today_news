@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:today_news/core/constant/app_size.dart';
 import 'package:today_news/core/theme/light_color.dart';
 
 ThemeData lighTheme = ThemeData(
@@ -15,7 +16,7 @@ ThemeData lighTheme = ThemeData(
     iconTheme: const IconThemeData(color: LightColor.blackColor),
     centerTitle: true,
     titleTextStyle: TextStyle(
-      fontSize: 16,
+      fontSize: AppSize.sp16,
       color: LightColor.blackColor,
       fontWeight: FontWeight.w700,
     ),
@@ -47,17 +48,15 @@ ThemeData lighTheme = ThemeData(
   //   }),
   // ),
   elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ButtonStyle(
-      shape: WidgetStatePropertyAll(
-        RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.zero),
-      ),
-      backgroundColor: WidgetStatePropertyAll(Color(0xFFC53030)),
-      foregroundColor: WidgetStatePropertyAll(Color(0xFFFFFCFC)),
-      textStyle: WidgetStatePropertyAll(
-        TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-      ),
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.zero),
+      minimumSize: Size.fromHeight(AppSize.h48),
+      backgroundColor: Color(0xFFC53030),
+      foregroundColor: Color(0xFFFFFCFC),
+      textStyle: TextStyle(fontSize: AppSize.sp16, fontWeight: FontWeight.w400),
     ),
   ),
+
   // floatingActionButtonTheme: FloatingActionButtonThemeData(
   //   extendedTextStyle: TextStyle(
   //     fontSize: 14,
@@ -135,9 +134,9 @@ ThemeData lighTheme = ThemeData(
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: const Color(0xFFFFFFFF),
-    hintStyle: const TextStyle(
+    hintStyle: TextStyle(
       color: LightColor.darkColor,
-      fontSize: 16,
+      fontSize: AppSize.sp16,
       fontWeight: FontWeight.w400,
     ),
     border: OutlineInputBorder(
@@ -191,13 +190,15 @@ ThemeData lighTheme = ThemeData(
     type: BottomNavigationBarType.fixed,
 
     selectedLabelStyle: TextStyle(
-      fontSize: 12,
+      fontSize: AppSize.sp12,
       fontWeight: FontWeight.w700,
+      height: 2,
       fontFamily: "Times New Roman",
     ),
     unselectedLabelStyle: TextStyle(
-      fontSize: 12,
+      fontSize: AppSize.sp12,
       fontWeight: FontWeight.w700,
+      height: 2,
       fontFamily: "Times New Roman",
     ),
   ),

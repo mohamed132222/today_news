@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:today_news/core/constant/app_size.dart';
 import 'package:today_news/feature/on_boarding/controller/on_boarding_controller.dart';
 import 'package:today_news/feature/on_boarding/models/on_boarding_model.dart';
 
@@ -29,7 +30,7 @@ class OnBoardingScreen extends StatelessWidget {
                           child: Text(
                             "Skip",
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: AppSize.sp14,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -40,9 +41,9 @@ class OnBoardingScreen extends StatelessWidget {
           ),
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 30,
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSize.pw16,
+                vertical: AppSize.ph30,
               ),
               child: Column(
                 children: [
@@ -56,28 +57,29 @@ class OnBoardingScreen extends StatelessWidget {
                             OnBoardingModel.onBoardingList[index];
                         return Column(
                           children: [
-                            SizedBox(height: 24),
-                            Image.asset(model.imagePath),
-                            SizedBox(height: 24),
+                            SizedBox(height: AppSize.ph16),
+                            Expanded(child: Image.asset(model.imagePath)),
+                            SizedBox(height: AppSize.ph24),
                             Text(
                               model.title,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: AppSize.sp20,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xFF4E4B66),
                                 fontFamily: "Times New Roman",
                               ),
                             ),
-                            SizedBox(height: 14),
+                            SizedBox(height: AppSize.ph14),
 
                             Text(
                               model.description,
                               textAlign: TextAlign.center,
+                              maxLines: 3,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: AppSize.sp16,
                                 fontWeight: FontWeight.w400,
-                                color: Color(0xFF6E7191),
+                                color: const Color(0xFF6E7191),
                                 fontFamily: "Times New Roman",
                               ),
                             ),
@@ -86,7 +88,7 @@ class OnBoardingScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(height: 24),
+                  SizedBox(height: AppSize.ph24),
                   Consumer<OnBoardingController>(
                     builder: (context, controller, _) {
                       return SmoothPageIndicator(
@@ -96,7 +98,7 @@ class OnBoardingScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(height: 116),
+                  SizedBox(height: AppSize.ph116),
 
                   Consumer<OnBoardingController>(
                     builder: (context, controller, _) {
@@ -111,12 +113,7 @@ class OnBoardingScreen extends StatelessWidget {
                             controller.onFinish(context);
                           }
                         },
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: Size(
-                            MediaQuery.of(context).size.width,
-                            48,
-                          ),
-                        ),
+
                         child: Text(
                           controller.lastPage ? "Get Started" : "Next",
                         ),
@@ -132,23 +129,3 @@ class OnBoardingScreen extends StatelessWidget {
     );
   }
 }
-
-// return Row(
-//   mainAxisAlignment: MainAxisAlignment.center,
-//   children: List.generate(
-//     3,
-//     (index) => Padding(
-//       padding: const EdgeInsets.only(right: 6.0),
-//       child: Container(
-//         width: 16,
-//         height: 16,
-//         decoration: BoxDecoration(
-//           shape: BoxShape.circle,
-//           color: controller.currentIndex == index
-//               ? Color(0xFFC53030)
-//               : Color(0xFFD3D3D3),
-//         ),
-//       ),
-//     ),
-//   ),
-// );
