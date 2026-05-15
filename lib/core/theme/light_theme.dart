@@ -21,6 +21,11 @@ ThemeData lighTheme = ThemeData(
       fontWeight: FontWeight.w700,
     ),
   ),
+  textSelectionTheme: TextSelectionThemeData(
+    cursorColor: Colors.black,
+    selectionColor: Colors.black,
+    selectionHandleColor: Colors.black,
+  ),
   // switchTheme: SwitchThemeData(
   //   trackColor: WidgetStateColor.resolveWith((states) {
   //     if (states.contains(WidgetState.selected)) {

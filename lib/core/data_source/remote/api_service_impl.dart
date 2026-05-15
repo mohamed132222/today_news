@@ -17,6 +17,7 @@ class ApiServiceImpl extends ApiService {
       "apiKey": ApiConfig.apiKey,
       ...?params,
     });
+    print(url);
 
     try {
       final http.Response response = await http.get(url);

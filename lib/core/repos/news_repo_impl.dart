@@ -1,8 +1,8 @@
 import 'package:today_news/core/data_source/remote/api_config.dart';
 import 'package:today_news/core/data_source/remote/api_service.dart';
 import 'package:today_news/core/data_source/remote/api_service_impl.dart';
+import 'package:today_news/core/repos/news_repo.dart';
 import 'package:today_news/feature/home/models/NewsArticleModel.dart';
-import 'package:today_news/feature/home/repo/news_repo.dart';
 
 class NewsRepoImpl extends NewsRepo {
   final ApiService apiService;
@@ -23,10 +23,12 @@ class NewsRepoImpl extends NewsRepo {
   }
 
   @override
-  Future<List<NewsArticleModel>> everythingEndPoint() async {
+  Future<List<NewsArticleModel>> everythingEndPoint({
+    String? q = "bitcoin",
+  }) async {
     Map<String, dynamic> json = await apiService.get(
       ApiConfig.everyThing,
-      params: {"q": "bitcoin"},
+      params: {"q": q},
     );
 
     return (json["articles"] as List)
@@ -51,10 +53,12 @@ class NewsRepoMockImpl extends NewsRepo {
   }
 
   @override
-  Future<List<NewsArticleModel>> everythingEndPoint() async {
+  Future<List<NewsArticleModel>> everythingEndPoint({
+    String? q = "bitcoin",
+  }) async {
     Map<String, dynamic> json = await ApiServiceImpl().get(
       ApiConfig.everyThing,
-      params: {"q": "bitcoin"},
+      params: {"q": q},
     );
 
     return (json["articles"] as List)

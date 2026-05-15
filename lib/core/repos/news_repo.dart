@@ -5,5 +5,5 @@ abstract class NewsRepo {
     String? category = "general",
   });
 
-  Future<List<NewsArticleModel>> everythingEndPoint();
+  Future<List<NewsArticleModel>> everythingEndPoint({String? q = "bitcoin"});
 }

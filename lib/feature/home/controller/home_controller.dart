@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:today_news/core/data_source/remote/api_config.dart';
-import 'package:today_news/core/data_source/remote/api_service_impl.dart';
 import 'package:today_news/core/enums/request_data_status.dart';
 import 'package:today_news/core/mixin/safe_notify_mixin.dart';
+import 'package:today_news/core/repos/news_repo.dart';
 import 'package:today_news/feature/home/models/NewsArticleModel.dart';
-import 'package:today_news/feature/home/repo/news_repo.dart';
-import 'package:today_news/feature/home/repo/news_repo_impl.dart';
 
 class HomeController extends ChangeNotifier with SafeNotifyMixin {
   RequestDataStatus everythingStatus = RequestDataStatus.loading;
