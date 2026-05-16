@@ -6,6 +6,7 @@ import 'package:today_news/core/extentions/date_time_extention.dart';
 import 'package:today_news/core/theme/light_color.dart';
 import 'package:today_news/core/widgets/cached_network_image_widget.dart';
 import 'package:today_news/core/widgets/custom_circler_avatar.dart';
+import 'package:today_news/feature/details/news_details_screen.dart';
 import 'package:today_news/feature/home/components/shared_view_all.dart';
 import 'package:today_news/feature/home/components/trending_news_shimmer.dart';
 import 'package:today_news/feature/home/controller/home_controller.dart';
@@ -74,76 +75,106 @@ class TrendingNews extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 final model = value.everythingList[index];
-                                return SizedBox(
-                                  height: AppSize.ph140,
-                                  width: AppSize.pw240,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(
-                                      AppSize.r12,
+                                return GestureDetector(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NewsDetailsScreen(
+                                        newsArticleModel: model,
+                                      ),
                                     ),
-                                    child: Stack(
-                                      children: [
-                                        if (model.urlToImage != null)
-                                          CachedNetworkImageWidget(
-                                            imagePath: model.urlToImage!,
-                                            height: AppSize.h140,
-                                            width: AppSize.w240,
-                                          ),
-                                        Positioned.fill(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
-                                                colors: [
-                                                  Colors.black.withValues(
-                                                    alpha: .5,
-                                                  ),
-                                                  Colors.black.withValues(
-                                                    alpha: .7,
-                                                  ),
-                                                ],
+                                  ),
+                                  child: SizedBox(
+                                    height: AppSize.ph140,
+                                    width: AppSize.pw240,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                        AppSize.r12,
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          if (model.urlToImage != null)
+                                            CachedNetworkImageWidget(
+                                              imagePath: model.urlToImage!,
+                                              height: AppSize.h140,
+                                              width: AppSize.w240,
+                                            ),
+                                          Positioned.fill(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    Colors.black.withValues(
+                                                      alpha: .5,
+                                                    ),
+                                                    Colors.black.withValues(
+                                                      alpha: .7,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Positioned(
-                                          bottom: AppSize.h12,
-                                          right: AppSize.w12,
-                                          left: AppSize.w12,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                model.title ?? "",
-                                                maxLines: 2,
-                                                style: TextStyle(
-                                                  fontSize: AppSize.sp14,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: LightColor.whiteColor,
-                                                  fontFamily: "Times New Roman",
-                                                ),
-                                              ),
-                                              SizedBox(height: AppSize.ph6),
-                                              Row(
-                                                children: [
-                                                  CustomCirclerAvatar(
-                                                    imagePath:
-                                                        model.urlToImage ?? "",
+                                          Positioned(
+                                            bottom: AppSize.h12,
+                                            right: AppSize.w12,
+                                            left: AppSize.w12,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  model.title ?? "",
+                                                  maxLines: 2,
+                                                  style: TextStyle(
+                                                    fontSize: AppSize.sp14,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    fontWeight: FontWeight.w700,
+                                                    color:
+                                                        LightColor.whiteColor,
+                                                    fontFamily:
+                                                        "Times New Roman",
                                                   ),
-                                                  SizedBox(width: AppSize.pw6),
+                                                ),
+                                                SizedBox(height: AppSize.ph6),
+                                                Row(
+                                                  children: [
+                                                    CustomCirclerAvatar(
+                                                      imagePath:
+                                                          model.urlToImage ??
+                                                          "",
+                                                    ),
+                                                    SizedBox(
+                                                      width: AppSize.pw6,
+                                                    ),
 
-                                                  Expanded(
-                                                    child: Text(
-                                                      model.author ?? "",
-                                                      maxLines: 1,
+                                                    Expanded(
+                                                      child: Text(
+                                                        model.author ?? "",
+                                                        maxLines: 1,
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              AppSize.sp12,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: LightColor
+                                                              .whiteColor,
+                                                          fontFamily:
+                                                              "Times New Roman",
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      model.publishedAt
+                                                          .formaterDateTime(),
                                                       style: TextStyle(
-                                                        fontSize: AppSize.sp12,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
+                                                        fontSize: AppSize.sp14,
+
                                                         fontWeight:
                                                             FontWeight.w400,
                                                         color: LightColor
@@ -152,27 +183,13 @@ class TrendingNews extends StatelessWidget {
                                                             "Times New Roman",
                                                       ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    model.publishedAt
-                                                        .formaterDateTime(),
-                                                    style: TextStyle(
-                                                      fontSize: AppSize.sp14,
-
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color:
-                                                          LightColor.whiteColor,
-                                                      fontFamily:
-                                                          "Times New Roman",
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );
