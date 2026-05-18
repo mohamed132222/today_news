@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:today_news/core/constant/app_size.dart';
 import 'package:today_news/core/data_source/local/preferences_manager.dart';
+import 'package:today_news/core/data_source/local/user_repository.dart';
 import 'package:today_news/core/widgets/custom_text_form_field.dart';
 import 'package:today_news/feature/main/main_screen.dart';
 
@@ -44,30 +45,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
 
       await Future.delayed(Duration(seconds: 1));
+      final String? error = await UserRepository().register(
+        email: email.text.trim(),
+        password: password.text.trim(),
+        name: username.text.trim(),
+      );
 
-      final savedEmail = PreferencesManager().getString("email");
-
-      if (savedEmail != null && savedEmail == email.text.trim()) {
+      if (error != null) {
         setState(() {
-          errorMessage = "email is already exist";
+          errorMessage = error;
 
           isLoading = false;
         });
-      } else {
-        await PreferencesManager().setBool("is_login", true);
-
-        await PreferencesManager().setString("email", email.text.trim());
-        await PreferencesManager().setString("username", username.text.trim());
-
-        await PreferencesManager().setString("password", password.text.trim());
-
-        if (!mounted) return;
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MainScreen()),
-        );
+        return;
       }
+      await PreferencesManager().setBool("is_login", true);
+      if (!mounted) return;
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
     }
   }
 

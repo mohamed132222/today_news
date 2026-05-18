@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:today_news/core/constant/app_size.dart';
 import 'package:today_news/core/data_source/local/preferences_manager.dart';
+import 'package:today_news/core/data_source/local/user_repository.dart';
 import 'package:today_news/core/theme/light_color.dart';
 import 'package:today_news/core/widgets/custom_text_form_field.dart';
 import 'package:today_news/feature/auth/register_screen.dart';
@@ -39,33 +40,22 @@ class _LoginScreenState extends State<LoginScreen> {
       });
 
       await Future.delayed(Duration(seconds: 2));
+      final error = UserRepository().login(
+        email: email.text.trim(),
+        password: password.text.trim(),
+      );
 
-      final savedPassword = PreferencesManager().getString("password");
-
-      final savedEmail = PreferencesManager().getString("email");
-
-      if (savedEmail == null || savedPassword == null) {
+      if (error != null) {
         setState(() {
-          isLoading = false;
-          errorMessage = "email dosent found";
-        });
+          errorMessage = error;
 
-        return;
-      }
-
-      if (savedEmail != email.text.trim() ||
-          savedPassword != password.text.trim()) {
-        setState(() {
           isLoading = false;
-          errorMessage = "email or password wrong";
         });
 
         return;
       }
 
       await PreferencesManager().setBool("is_login", true);
-
-      if (!mounted) return;
 
       Navigator.pushReplacement(
         context,

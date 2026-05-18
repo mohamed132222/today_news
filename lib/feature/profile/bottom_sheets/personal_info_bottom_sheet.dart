@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:today_news/core/constant/app_size.dart';
 import 'package:today_news/core/data_source/local/preferences_manager.dart';
+import 'package:today_news/core/data_source/local/user_repository.dart';
+import 'package:today_news/core/models/user_model.dart';
 import 'package:today_news/core/theme/light_color.dart';
 import 'package:today_news/core/widgets/custom_text_form_field.dart';
 
@@ -24,14 +26,14 @@ class _PersonalInfoBottomSheetState extends State<PersonalInfoBottomSheet> {
     _loadUserData();
   }
 
-  void _loadUserData() {
-    email.text = PreferencesManager().getString("email") ?? "";
-    username.text = PreferencesManager().getString("username") ?? "";
+  void _loadUserData() async {
+    final UserModel? user = await UserRepository().getUser();
+    email.text = user?.name ?? "";
+    username.text = user?.email ?? "";
   }
 
-  void _saveData() {
-    PreferencesManager().setString("email", email.text);
-    PreferencesManager().setString("username", username.text);
+  void _saveData() async {
+    await UserRepository().updateUser(email: email.text, name: username.text);
   }
 
   @override

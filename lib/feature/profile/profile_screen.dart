@@ -140,6 +140,7 @@ class ProfileScreen extends StatelessWidget {
                       imagePath: "logout_icon.svg",
                       onTap: () {
                         PreferencesManager().clear();
+
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
