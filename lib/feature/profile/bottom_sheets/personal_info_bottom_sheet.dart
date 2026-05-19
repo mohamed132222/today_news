@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:today_news/core/constant/app_size.dart';
-import 'package:today_news/core/data_source/local/preferences_manager.dart';
 import 'package:today_news/core/data_source/local/user_repository.dart';
 import 'package:today_news/core/models/user_model.dart';
 import 'package:today_news/core/theme/light_color.dart';
 import 'package:today_news/core/widgets/custom_text_form_field.dart';
 
 class PersonalInfoBottomSheet extends StatefulWidget {
-  PersonalInfoBottomSheet({super.key});
+  const PersonalInfoBottomSheet({super.key});
 
   @override
   State<PersonalInfoBottomSheet> createState() =>
@@ -16,20 +15,20 @@ class PersonalInfoBottomSheet extends StatefulWidget {
 
 class _PersonalInfoBottomSheetState extends State<PersonalInfoBottomSheet> {
   final TextEditingController email = TextEditingController();
-
   final TextEditingController username = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loadUserData();
   }
 
-  void _loadUserData() async {
-    final UserModel? user = await UserRepository().getUser();
-    email.text = user?.name ?? "";
-    username.text = user?.email ?? "";
+  void _loadUserData() {
+    final UserModel? user = UserRepository().getUser();
+    // Correct mapping: email to email, name to username controller
+    email.text = user?.email ?? "";
+    username.text = user?.name ?? "";
   }
 
   void _saveData() async {
@@ -69,7 +68,6 @@ class _PersonalInfoBottomSheetState extends State<PersonalInfoBottomSheet> {
                 SizedBox(height: AppSize.ph24),
                 Text(
                   "Profile Info",
-
                   style: TextStyle(
                     fontSize: AppSize.sp16,
                     fontWeight: FontWeight.w400,
@@ -87,19 +85,15 @@ class _PersonalInfoBottomSheetState extends State<PersonalInfoBottomSheet> {
                     if (value == null || value.isEmpty) {
                       return "please enter your email";
                     }
-
                     final RegExp emailRegex = RegExp(
                       r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                     );
-
                     if (!emailRegex.hasMatch(value)) {
                       return "Enter valid email";
                     }
-
                     return null;
                   },
                 ),
-
                 SizedBox(height: AppSize.ph12),
                 CustomTextFormField(
                   title: "Username",
@@ -109,7 +103,6 @@ class _PersonalInfoBottomSheetState extends State<PersonalInfoBottomSheet> {
                     if (value == null || value.isEmpty) {
                       return "please enter your name";
                     }
-
                     return null;
                   },
                 ),
@@ -121,7 +114,7 @@ class _PersonalInfoBottomSheetState extends State<PersonalInfoBottomSheet> {
                       Navigator.pop(context);
                     }
                   },
-                  child: Text("Save"),
+                  child: const Text("Save"),
                 ),
               ],
             ),

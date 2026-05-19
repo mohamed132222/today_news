@@ -8,9 +8,12 @@ import 'package:today_news/feature/splash/splash_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
+
+  // Initialize both data sources
   await UserRepository().init();
   await PreferencesManager().init();
-  runApp(TodayNews());
+
+  runApp(const TodayNews());
 }
 
 class TodayNews extends StatelessWidget {
@@ -20,12 +23,11 @@ class TodayNews extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       minTextAdapt: true,
-
-      designSize: Size(375, 832),
+      designSize: const Size(375, 832),
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lighTheme,
-        home: SplashScreen(),
+        home: const SplashScreen(),
       ),
     );
   }

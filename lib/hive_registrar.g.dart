@@ -4,15 +4,18 @@
 
 import 'package:hive_ce/hive_ce.dart';
 import 'package:today_news/core/models/user_model.dart';
+import 'package:today_news/feature/book_mark/models/bookmark_model.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
+    registerAdapter(BookmarkModelAdapter());
     registerAdapter(UserModelAdapter());
   }
 }
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
+    registerAdapter(BookmarkModelAdapter());
     registerAdapter(UserModelAdapter());
   }
 }
