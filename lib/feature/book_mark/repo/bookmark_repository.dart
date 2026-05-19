@@ -28,6 +28,10 @@ class BookmarkRepository {
     return bookmarkBox.values.toList();
   }
 
+  BookmarkModel? getBookmark(String url) {
+    return bookmarkBox.get(url);
+  }
+
   Future<void> addBookmark(NewsArticleModel article) async {
     final bookmark = BookmarkModel(
       author: article.author,
@@ -51,33 +55,24 @@ class BookmarkRepository {
     return bookmarkBox.containsKey(url);
   }
 
-  Future<void> clearBookmarks() async {
-    await bookmarkBox.clear();
-  }
-
-  BookmarkModel? getBookmark(String url) {
-    return bookmarkBox.get(url);
-  }
-
-  toggleBookmark(NewsArticleModel article) async {
-    if (isBookmarked(article.url)) {
-      await removeBookmark(article.url!);
-      return false;
-    } else {
-      await addBookmark(article);
-      return true;
-    }
-  }
-
-  getBookmarkCount() {
+  int getBookmarkCount() {
     return bookmarkBox.length;
   }
 
-  clearAllBookmarks() async {
-    await bookmarkBox.clear();
+  Future<bool> toggleBookmark(NewsArticleModel article) async {
+    final String? url = article.url;
+    if (url == null || url.isEmpty) return false;
+
+    if (isBookmarked(url)) {
+      await removeBookmark(url);
+      return false; // Removed
+    } else {
+      await addBookmark(article);
+      return true; // Added
+    }
   }
 
-  searchBookmarks(String query) {
+  List<BookmarkModel> searchBookmarks(String query) {
     if (query.isEmpty) return getBookmarks();
     final lowerCaseQuery = query.toLowerCase();
     return bookmarkBox.values.where((bookmark) {
@@ -91,7 +86,7 @@ class BookmarkRepository {
     }).toList()..sort((a, b) => b.bookmarkAt.compareTo(a.bookmarkAt));
   }
 
-  bookmarkToNewsArticle(BookmarkModel bookmark) {
+  NewsArticleModel bookmarkToNewsArticle(BookmarkModel bookmark) {
     return NewsArticleModel(
       author: bookmark.author,
       title: bookmark.title,
